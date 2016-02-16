@@ -4,3 +4,6 @@ Its a rails app, `clone`, `bundle` `rake db:create db:migrate`, `localhost:3000`
 
 You can run the crawler by running `SelfScraper.begin("google")` in `rails console`. This example will start
 at the Google  page and move to "related" pages from there. 
+
+This is a HTML scaper, not an authenticated API application, so it probably has
+more severe rate limits. `999` errors means the IP address is being throttled. 
