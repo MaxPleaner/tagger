@@ -1,8 +1,13 @@
+## Tagger
+
+scrapes descriptions & tags for LinkedIn companies 
+
+------
+
 ### Setup
 
 It requires one environment variable to be set, `MONKEY_LEARN_TOKEN` which is an api key from
 [monkeylearn.com](http://monkeylearn.com) 
-Get similar companies via scraping linked in.
 
 Other than that, it's standard Rails:
 
