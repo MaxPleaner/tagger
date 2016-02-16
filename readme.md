@@ -8,14 +8,12 @@ Other than that, it's standard Rails:
 
 `clone`, `bundle` `rake db:create db:migrate`, `localhost:3000`
 
-### main components / usage
+### basic usage
 
-  - Rails app (server, HTML pages)
+  - Use the HTML interface at `localhost:3000`
   - Scraper command (call with `SelfScraper.begin("google")` in `rails c` when the server is running)
 
-### Usage
-
-Use the HTML interface at `localhost:3000`, or, alternatively -
+### details on scraper
 
 You can run the crawler by running `SelfScraper.begin("google")` in `rails console`. This example will start
 at the Google  page and move to "related" pages from there.
