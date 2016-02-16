@@ -7,7 +7,7 @@ scrapes descriptions & tags for LinkedIn companies
 #### Setup
 
 It requires one environment variable to be set, `MONKEY_LEARN_TOKEN` which is an api key from
-[monkeylearn.com](http://monkeylearn.com) 
+[monkeylearn.com](http://monkeylearn.com). MonkeyLearn is used to extract tags from text.
 
 Other than that, it's standard Rails:
 
