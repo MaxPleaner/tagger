@@ -1,5 +1,8 @@
 Get similar companies via scraping linked in.
 
+It requires one environment variable to be set, `MONKEY_LEARN_TOKEN` which is an api key from
+[monkeylearn.com](http://monkeylearn.com)
+
 Its a rails app, `clone`, `bundle` `rake db:create db:migrate`, `localhost:3000`
 
 You can run the crawler by running `SelfScraper.begin("google")` in `rails console`. This example will start
