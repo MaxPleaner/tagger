@@ -16,4 +16,4 @@ more severe rate limits. `999` errors means the IP address is being throttled.
 The bulk of the code is in [`application_controller.rb`](https://github.com/MaxPleaner/tagger/blob/master/app/controllers/application_controller.rb),
 [`pages_controller.rb`](https://github.com/MaxPleaner/tagger/blob/master/app/controllers/pages_controller.rb),
 [`pages/root.html.erb`](https://github.com/MaxPleaner/tagger/blob/master/app/views/pages/root.html.erb),
-and [`application.rb`](https://github.com/MaxPleaner/tagger/blob/master/app/config/application.rb).
+and [`application.rb`](https://github.com/MaxPleaner/tagger/blob/master/config/application.rb).
