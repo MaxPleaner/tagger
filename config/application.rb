@@ -13,7 +13,6 @@ when "production"
     ROOT_URL = "https://maxp-tagger.herokuapp.com"
 end
 
-
 require 'monkeylearn' 
 Monkeylearn.configure do |c|
   c.token = ENV["MONKEY_LEARN_TOKEN"]
@@ -33,7 +32,6 @@ class Extractor
             )
             parse_response_sections = response.responses.map { |response| JSON.parse(response.raw_response.env.body) }
             results = parse_response_sections.map { |section| section['result'] }
-            # binding.pry
             labels = results.map { |result|
                 result.map { |group|
                   group.map { |item|
@@ -58,23 +56,23 @@ class SelfScraper
             page = agent.get(page)
             links = page.css(".search-trigger-link").map { |link| link.attributes['href'].value }
             next_pages = links.map { |link| agent.get(link) }
-            page = next_pages.sample
-            next next_pages
+            page.css("#scraper-url").text.eql?("cached") ? [] : next_pages
         }
-        
-        while true
+        looping = true
+        while looping
             seen_pages ||= []
             pages_options ||= []
-            sleep 1
+            sleep 3
             begin
                 page ||= "http://localhost:3000/?category_name=linkedin&category_argument=#{company_name}"
                 if seen_pages.include?(page)
                     puts "already seen".yellow
                     pages_options.delete(page)
                 else
-                    pages_options = loopedy.call(page)
+                    next_page_options = loopedy.call(page)
                                            .map { |page_obj| page_obj.uri.to_s }
                                            .reject { |link| seen_pages.include?(link) }
+                    pages_options = next_pages_options unless next_pages_options.blank?
                     seen_pages << page
                     pages_options.delete(page)
                     fetched = true
@@ -82,24 +80,33 @@ class SelfScraper
                 puts "fetched: #{!!defined?(fetched)}"
                 puts page
                 puts "page options: #{pages_options.map { |opt| opt.last(5) }.join(" ").try(:red)}"
-                puts "empty pages".red if page_options.empty?
+                if page_options.empty?
+                    puts "empty pages"
+                    looping = false
+                    return nil
+                end
                 page = pages_options.sample
             rescue StandardError => e
                 page = pages_options.sample
                 if seen_pages.include?(page)
                     pages_options.delete(page)
                 else
-                    pages_options = loopedy.call(page)
+                    next_pages_options = loopedy.call(page)
                                    .map { |page_obj| page_obj.uri.to_s }
                                    .reject { |link| seen_pages.include?(link) }
                     seen_pages << page
+                    pages_options = next_pages_options unless next_pages_options.blank?
                     pages_options.delete(page)                    
                     fetched = true
                 end
                 puts "fetched: #{!!defined?(fetched)}"
                 puts page
                 puts "page options: #{pages_options.join(" ").try(:red)}"
-                puts "empty pages".red if pages_options.empty?
+                if pages_options.empty?
+                    puts "empty pages"
+                    looping = false
+                    return nil
+                end
                 page = pages_options.sample
             end
         end

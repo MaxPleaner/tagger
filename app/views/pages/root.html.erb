@@ -14,7 +14,7 @@
 
 <!-- selected url -->
 <% if @url %>
-  <%= @url %> <br>
+  <div id="scraper-url"><%= @url %></div> <br>
 <% end %>
 <% if @obj %>
   <% if @obj.is_a?(TagsCollection) %> <br>

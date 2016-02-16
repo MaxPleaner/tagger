@@ -60,6 +60,8 @@ class ApplicationController < ActionController::Base
           }
           Cache.store_company(company)
           company = Cache.categorize(category_name: "company", category_argument: company[:title])
+          puts "#{"Categorized #{company[:title]}".black_on_green} - #{company[:categories].map { |tag| tag["title"] }}"
+          sleep 2
           next company
         }.flatten
       )
@@ -81,7 +83,11 @@ class ApplicationController < ActionController::Base
     return nil unless [:category_name, :category_argument].all?
     case category_name
     when "linkedin"
-      url, obj = linkedin_query(category_argument)
+      if Cache.company(category_argument)
+        url, obj = "cached", linkedin_query(category_argument)
+      else
+        url, obj = linkedin_query(category_argument)
+      end
     when "tag_details"
       url, obj = tag_details(category_argument)
     when "drag_and_drop"

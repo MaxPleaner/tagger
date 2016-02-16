@@ -52,3 +52,14 @@ form {
 .container div[data-ss-colspan="2"] { width: 170px; }
 .container div[data-ss-colspan="3"] { width: 260px; }
 .container div[data-ss-colspan="4"] { width: 350px; }
+
+a {
+  display: inline-block;
+  border: 1px solid black;
+  padding: 5px ;
+  transition: background-color .5s ease-in;
+}
+
+a:hover {
+  background-color: aqua;
+}

@@ -47,6 +47,7 @@ group :development do
 end
 
 
+gem "colored"
 gem "mechanize"
 gem "awesome_print"
 gem "phrasie"
