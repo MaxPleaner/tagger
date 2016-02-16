@@ -1,13 +1,31 @@
-Get similar companies via scraping linked in.
+### Setup
 
 It requires one environment variable to be set, `MONKEY_LEARN_TOKEN` which is an api key from
 [monkeylearn.com](http://monkeylearn.com) 
+Get similar companies via scraping linked in.
 
-Its a rails app, `clone`, `bundle` `rake db:create db:migrate`, `localhost:3000`
+Other than that, it's standard Rails:
+
+`clone`, `bundle` `rake db:create db:migrate`, `localhost:3000`
+
+### main components / usage
+
+  - Rails app (server, HTML pages)
+  - Scraper command (call with `SelfScraper.begin("google")` in `rails c` when the server is running)
+
+### Usage
+
+Use the HTML interface at `localhost:3000`, or, alternatively -
 
 You can run the crawler by running `SelfScraper.begin("google")` in `rails console`. This example will start
-at the Google  page and move to "related" pages from there. This will load up the 
-'companies' list and the 'tags' list. Note the 'clear cache' button actually wipes the
+at the Google  page and move to "related" pages from there.
+- This automatically interacts with the server using `Mechanize`.
+- Eventually it will loop and stop finding new companies.
+- This is because of the redundancy in LinkedIn's 'people also clicked' section.
+- There are often small groups of companies which all link back to each other.
+- When this happens, the scraper will need to be restarted with a new company name. 
+
+Note the 'clear cache' button on the HTML site actually wipes the
 entire database.  
 
 This is a HTML scaper, not an authenticated API application, so it probably has
