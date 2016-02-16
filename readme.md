@@ -24,7 +24,7 @@ You can run the crawler by running `SelfScraper.begin("google")` in `rails conso
 at the Google  page and move to "related" pages from there.
 - This automatically interacts with the server using `Mechanize`.
 - Eventually it will loop and stop finding new companies.
-- This is because of the redundancy in LinkedIn's 'people also clicked' section.
+- This is because of bidirectional linking in  LinkedIn's 'people also clicked' sections.
 - There are often small groups of companies which all link back to each other.
 - When this happens, the scraper will need to be restarted with a new company name. 
 
