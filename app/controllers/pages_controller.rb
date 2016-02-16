@@ -1,6 +1,8 @@
 class PagesController < ApplicationController
 	def root
-    GenericCache.destroy_all if params[:clear_cache]
+    if params[:clear_cache]
+      [GenericCache, Tag].each(&:destroy_all)
+    end
     @url, @obj = categorize_and_perform_request(
       category_name: params[:category_name],
       category_argument: params[:category_argument]

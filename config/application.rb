@@ -16,7 +16,7 @@ end
 
 require 'monkeylearn' 
 Monkeylearn.configure do |c|
-  c.token = '24a6e5d42480dfe422118c0c1dff606b08962793'
+  c.token = ENV["MONKEY_LEARN_TOKEN"]
 end
 
 # Extractor = Phrasie::Extractor.new
@@ -46,10 +46,42 @@ end
 
 Agent = Mechanize.new
 
+class SelfScraper
+    def self.begin(company_name)
+        agent = Mechanize.new # dont share the other one
+        loopedy = ->(page){
+            page = agent.get(page)
+            links = page.css(".search-trigger-link").map { |link| link.attributes['href'].value }
+            next_pages = links.map { |link| agent.get(link) }
+            page = next_pages.sample
+            next next_pages
+        }
+        while true
+            pages_options ||= []
+            begin
+                page ||= "http://localhost:3000/?category_name=linkedin&category_argument=#{company_name}"
+                pages_options = loopedy.call(page)
+                page = pages_options.sample
+            rescue StandardError => e
+                page = pages_options.sample
+                pages_options = loopedy.call(page)
+                page = pages_options.sample
+            end
+        end
+    end
+end
+
 class LinkedInCollection
     attr_accessor :companies
     def initialize(options={})
         @companies = options[:companies] || options["companies"]
+    end
+end
+
+class TagsCollection
+    attr_accessor :tags
+    def initialize(options={})
+        @tags = options[:tags] || options["tags"]
     end
 end
 
@@ -63,15 +95,24 @@ class Cache
             content: YAML.dump(attrs)
         )
     end
+    def self.create_tag(options={})
+        relation_type, relation_id, title = options.values_at(:relation_type, :relation_id, :title)
+        return nil unless [relation_type, relation_id, title].all?
+        tag = Tag.create(relation_type: relation_type, relation_id: relation_id, title: title.downcase)
+        return tag
+    end
+
     def self.categorize(options={})
         category_name, category_argument = options.values_at(:category_name, :category_argument)
         return nil unless [category_name, category_argument].all?
         cache_record = GenericCache.find_by(category: category_name, title: category_argument)
         return nil unless cache_record
         record_attrs = YAML.load(cache_record.content)
+        keywords = categories_for(text: record_attrs[:description])
+        tags = YAML.load(keywords).map { |word| create_tag(relation_type: "generic_cache", relation_id: cache_record.id, title: word)}
         record_attrs[:source] && cache_record.update(
             content: YAML.dump(
-                record_attrs.merge(:categories => categories_for(text: record_attrs[:description]))
+                record_attrs.merge(:categories => tags)
             )
         )
         record = GenericCache.find_by(category: category_name, title: category_argument)

@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
-  http_basic_authenticate_with(name: ENV["AUTH_NAME"], password: ENV["AUTH_PASSWORD"])
+  # http_basic_authenticate_with(name: ENV["AUTH_NAME"], password: ENV["AUTH_PASSWORD"])
 
   def agent
     @agent ||= Agent
@@ -41,6 +41,15 @@ class ApplicationController < ActionController::Base
       return [url, obj]
   end
 
+  def tag_details(category_argument)
+    url = "#{ROOT_URL}/?tag_details=#{category_argument}"
+    tags = Tag.where(title: category_argument).map do |tag|
+      tag.relation_type.camelcase.constantize.find_by(id: tag.relation_id).title
+    end
+    obj = TagsCollection.new(tags: tags)
+    return [url, obj]
+  end
+
   def categorize_and_perform_request(options={})
     category_name = options[:category_name]
     category_argument = options[:category_argument]
@@ -48,6 +57,8 @@ class ApplicationController < ActionController::Base
     case category_name
     when "linkedin"
       url, obj = linkedin_query(category_argument)
+    when "tag_details"
+      url, obj = tag_details(category_argument)
     else
       return nil, nil
     end

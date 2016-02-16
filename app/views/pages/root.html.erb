@@ -6,21 +6,25 @@
   <input type="hidden" name="category_name" value="linkedin">
   <input type="text" name="category_argument" placeholder="company name"> <br>
   <input type="submit" value="submit">
+  <br><br> <a href="#all-tags">All tags</a> <br>
+  <br><br> <a href="#all-companies">All companies</a> <br>
 </form> <br>
 
 <!-- selected url -->
 <% if @url %>
   <%= @url %> <br>
 <% end %>
-
 <% if @obj %>
-  <% if @obj.is_a?(LinkedInCollection) %>
+  <% if @obj.is_a?(TagsCollection) %> <br>
+    <% @obj.tags.each do |tag| %>
+      <a href="<%= ROOT_URL %>/?category_name=linkedin&category_argument=<%= tag %>"><%= tag %></a>
+    <% end %>
+  <% elsif @obj.is_a?(LinkedInCollection) %>
   <pre>
     Quick links:
     <% @obj.companies.each do |obj| %>
       <a href="#<%= obj[:title] %>"><%= obj[:title] %></a>
-      <%= obj[:categories] %>
-      - <%#= obj[:categories].join(" ") %>
+      Categories: <b><%= obj[:categories] && obj[:categories].map(&:title).join(", ") %></b>
     <% end %>
 
   </pre>
@@ -28,7 +32,7 @@
     <% @obj.companies.each do |company| %>
       <div class="company">
         <div id="<%= company[:title] %>"></div>
-        <b><a href="<%= company[:href] %>"><%= company[:title] %></a>  - <a href="#top">top</a><br>
+        <b><a class="search-trigger-link" href="<%= company[:href] %>"><%= company[:title] %></a>  - <a href="#top">top</a><br>
         <b><%= raw company[:location].html_safe %></b> <br>
         <pre class="small-pre"><%= raw company[:description].html_safe %></pre> <br> <br>
       </div>
@@ -40,4 +44,28 @@
 <% end %> <br>
 
 
+<div id="all-tags">
+  <h4>All Tags: </h4>
+  <% Tag.all.pluck(:title).uniq.map do |title| %>
+    <a href="/?category_name=tag_details&category_argument=<%= title %>"><%= title %></a> 
+  <% end %>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+</div>
 
+<div id="all-companies">
+  <h4>All Companies: </h4>
+  <% GenericCache.where(category: "company").all.pluck(:title).uniq.map do |title| %>
+    <a href="/?category_name=linkedin&category_argument=<%= title %>"><%= title %></a> 
+  <% end %>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+</div>
