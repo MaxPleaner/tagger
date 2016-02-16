@@ -5,15 +5,10 @@ class ApplicationController < ActionController::Base
   http_basic_authenticate_with(name: ENV["AUTH_NAME"], password: ENV["AUTH_PASSWORD"])
 
   def agent
-    @agent ||= Mechanize.new
+    @agent ||= Agent
   end
 
-  def categorize_and_perform_request(options={})
-    category_name = options[:category_name]
-    category_argument = options[:category_argument]
-    return nil unless [:category_name, :category_argument].all?
-    case category_name
-    when "linkedin"
+  def linkedin_query(category_argument)
       url =  "https://www.linkedin.com/company/#{category_argument}"
       page = agent.get(url)
       obj = LinkedInCollection.new(
@@ -33,14 +28,26 @@ class ApplicationController < ActionController::Base
           # binding.pry
           company = {
             href: related_link,
+            source: related_company_url,
             title: title,
             description: description,
             location: location
           }
           Cache.store_company(company)
+          company = Cache.categorize(category_name: "company", category_argument: company[:title])
           next company
         }.flatten
       )
+      return [url, obj]
+  end
+
+  def categorize_and_perform_request(options={})
+    category_name = options[:category_name]
+    category_argument = options[:category_argument]
+    return nil unless [:category_name, :category_argument].all?
+    case category_name
+    when "linkedin"
+      url, obj = linkedin_query(category_argument)
     else
       return nil, nil
     end

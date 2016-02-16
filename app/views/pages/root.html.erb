@@ -17,8 +17,10 @@
   <% if @obj.is_a?(LinkedInCollection) %>
   <pre>
     Quick links:
-    <% @obj.companies.map { |ob| ob[:title] }.each do |obj| %>
-      <a href="#<%= obj %>"><%= obj %></a>
+    <% @obj.companies.each do |obj| %>
+      <a href="#<%= obj[:title] %>"><%= obj[:title] %></a>
+      <%= obj[:categories] %>
+      - <%#= obj[:categories].join(" ") %>
     <% end %>
 
   </pre>

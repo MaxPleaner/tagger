@@ -13,6 +13,39 @@ when "production"
     ROOT_URL = "https://maxp-tagger.herokuapp.com"
 end
 
+
+require 'monkeylearn' 
+Monkeylearn.configure do |c|
+  c.token = '24a6e5d42480dfe422118c0c1dff606b08962793'
+end
+
+# Extractor = Phrasie::Extractor.new
+class Extractor
+    def self.sanitize(text)
+        text.gsub("\"", "'").gsub("<", " ").gsub(">", " ")
+    end
+    def self.lookup(text)
+        response = Monkeylearn.classifiers.classify(
+            'cl_4PFzSWVR',
+            [text],
+            sandbox: false
+        )
+        parse_response_sections = response.responses.map { |response| JSON.parse(response.raw_response.env.body) }
+        results = parse_response_sections.map { |section| section['result'] }
+        # binding.pry
+        labels = results.map { |result|
+            result.map { |group|
+              group.map { |item|
+               item['label'] 
+              }
+            }
+        }.flatten
+        return labels
+    end
+end
+
+Agent = Mechanize.new
+
 class LinkedInCollection
     attr_accessor :companies
     def initialize(options={})
@@ -29,6 +62,27 @@ class Cache
         GenericCache.find_or_initialize_by(category: "company", title: attrs[:title]).update(
             content: YAML.dump(attrs)
         )
+    end
+    def self.categorize(options={})
+        category_name, category_argument = options.values_at(:category_name, :category_argument)
+        return nil unless [category_name, category_argument].all?
+        cache_record = GenericCache.find_by(category: category_name, title: category_argument)
+        return nil unless cache_record
+        record_attrs = YAML.load(cache_record.content)
+        record_attrs[:source] && cache_record.update(
+            content: YAML.dump(
+                record_attrs.merge(:categories => categories_for(text: record_attrs[:description]))
+            )
+        )
+        record = GenericCache.find_by(category: category_name, title: category_argument)
+        return YAML.load(record.content)
+    end
+
+    def self.categories_for(options={})
+        text = options[:text]
+        return nil unless text
+        keywords = Extractor.lookup(text)
+        return YAML.dump(keywords)
     end
 end
 
