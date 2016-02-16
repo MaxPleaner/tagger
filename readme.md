@@ -20,6 +20,8 @@ Other than that, it's standard Rails:
 
 #### details on scraper
 
+You can load some seed data by running `rake db:data:load`
+
 You can run the crawler by running `SelfScraper.begin("google")` in `rails console`. This example will start
 at the Google  page and move to "related" pages from there.
 - This automatically interacts with the server using `Mechanize`.
