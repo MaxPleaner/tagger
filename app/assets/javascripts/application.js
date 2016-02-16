@@ -13,4 +13,32 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+// require gridster
+//= require shapeshifter
+//= require genius
 //= require_tree .
+
+
+$(function(){
+    // $(".gridster ul").gridster({
+    //     widget_margins: [10, 10],
+    //     widget_base_dimensions: [140, 140],
+    //     serialize_params: function($w, wgd) { 
+    //         return { 
+    //                id: $($w).attr('id'), 
+    //                col: wgd.col, 
+    //                row: wgd.row, 
+    //                size_x: wgd.size_x, 
+    //                size_y: wgd.size_y 
+    //         };
+    //     },
+    // });
+    // var gridster = $(".gridster ul").gridster().data('gridster');
+    // gridData = gridster.serialize();
+    // gridster.add_widget(
+    //   '<li class="new">The HTML of the widget...</li>', 2, 1
+    // );
+    // console.log(gridster.serialize())
+
+  $('.container').shapeshift();
+})

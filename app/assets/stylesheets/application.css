@@ -31,3 +31,24 @@ form {
   display: inline-block;
   font-size: 1.1em;;
 }
+
+  li {
+    border: 1px solid black;
+    display: inline-block;
+  }
+
+
+
+.container {
+  position: relative;
+  width: 100%;
+}
+
+.container div {
+  height: 120px; 
+  position: absolute; 
+  width: 80px;
+}
+.container div[data-ss-colspan="2"] { width: 170px; }
+.container div[data-ss-colspan="3"] { width: 260px; }
+.container div[data-ss-colspan="4"] { width: 350px; }

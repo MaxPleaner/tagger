@@ -25,22 +25,27 @@ class Extractor
         text.gsub("\"", "'").gsub("<", " ").gsub(">", " ")
     end
     def self.lookup(text)
-        response = Monkeylearn.classifiers.classify(
-            'cl_4PFzSWVR',
-            [text],
-            sandbox: false
-        )
-        parse_response_sections = response.responses.map { |response| JSON.parse(response.raw_response.env.body) }
-        results = parse_response_sections.map { |section| section['result'] }
-        # binding.pry
-        labels = results.map { |result|
-            result.map { |group|
-              group.map { |item|
-               item['label'] 
-              }
-            }
-        }.flatten
-        return labels
+        begin
+            response = Monkeylearn.classifiers.classify(
+                'cl_4PFzSWVR',
+                [text],
+                sandbox: false
+            )
+            parse_response_sections = response.responses.map { |response| JSON.parse(response.raw_response.env.body) }
+            results = parse_response_sections.map { |section| section['result'] }
+            # binding.pry
+            labels = results.map { |result|
+                result.map { |group|
+                  group.map { |item|
+                   item['label'] 
+                  }
+                }
+            }.flatten
+            return labels
+        rescue StandardError => e
+            puts e.message.red
+            return []
+        end
     end
 end
 
@@ -56,15 +61,45 @@ class SelfScraper
             page = next_pages.sample
             next next_pages
         }
+        
         while true
+            seen_pages ||= []
             pages_options ||= []
+            sleep 1
             begin
                 page ||= "http://localhost:3000/?category_name=linkedin&category_argument=#{company_name}"
-                pages_options = loopedy.call(page)
+                if seen_pages.include?(page)
+                    puts "already seen".yellow
+                    pages_options.delete(page)
+                else
+                    pages_options = loopedy.call(page)
+                                           .map { |page_obj| page_obj.uri.to_s }
+                                           .reject { |link| seen_pages.include?(link) }
+                    seen_pages << page
+                    pages_options.delete(page)
+                    fetched = true
+                end
+                puts "fetched: #{!!defined?(fetched)}"
+                puts page
+                puts "page options: #{pages_options.map { |opt| opt.last(5) }.join(" ").try(:red)}"
+                puts "empty pages".red if page_options.empty?
                 page = pages_options.sample
             rescue StandardError => e
                 page = pages_options.sample
-                pages_options = loopedy.call(page)
+                if seen_pages.include?(page)
+                    pages_options.delete(page)
+                else
+                    pages_options = loopedy.call(page)
+                                   .map { |page_obj| page_obj.uri.to_s }
+                                   .reject { |link| seen_pages.include?(link) }
+                    seen_pages << page
+                    pages_options.delete(page)                    
+                    fetched = true
+                end
+                puts "fetched: #{!!defined?(fetched)}"
+                puts page
+                puts "page options: #{pages_options.join(" ").try(:red)}"
+                puts "empty pages".red if pages_options.empty?
                 page = pages_options.sample
             end
         end
@@ -85,10 +120,19 @@ class TagsCollection
     end
 end
 
+class DragAndDropInterface
+    attr_accessor :html
+    def initialize(options={})
+        @html = options[:html] || options["html"]
+    end
+end
+
 class Cache
     def self.company(title)
-        match = YAML.load(GenericCache.find_by(category: "company", title: title).try(:content).to_s)
-        match.blank? ? nil : match
+        match = GenericCache.find_by(category: "company", title: title)
+        match_obj = YAML.load(match.try(:content).to_s) rescue nil
+        match.try(:destroy) unless match_obj
+        match_obj.blank? ? nil : match_obj
     end
     def self.store_company(attrs)
         GenericCache.find_or_initialize_by(category: "company", title: attrs[:title]).update(
@@ -112,7 +156,7 @@ class Cache
         tags = YAML.load(keywords).map { |word| create_tag(relation_type: "generic_cache", relation_id: cache_record.id, title: word)}
         record_attrs[:source] && cache_record.update(
             content: YAML.dump(
-                record_attrs.merge(:categories => tags)
+                record_attrs.merge(:categories => tags.map(&:attributes))
             )
         )
         record = GenericCache.find_by(category: category_name, title: category_argument)

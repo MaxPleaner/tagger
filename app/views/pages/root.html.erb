@@ -1,5 +1,7 @@
 <div id="top"></div>
 
+<a href="<%= ROOT_URL %>/?category_name=drag_and_drop&category_argument=true">Drag and drop</a> <br> <br>
+
 <!-- enter new url -->
 <form action="<%= ROOT_URL %>" method="GET">
   <pre>similar company search</pre> <br>
@@ -24,7 +26,7 @@
     Quick links:
     <% @obj.companies.each do |obj| %>
       <a href="#<%= obj[:title] %>"><%= obj[:title] %></a>
-      Categories: <b><%= obj[:categories] && obj[:categories].map(&:title).join(", ") %></b>
+      Categories: <b><%= obj[:categories] && obj[:categories].map { |tag| tag[:title] }.join(", ") %></b>
     <% end %>
 
   </pre>
@@ -38,6 +40,10 @@
       </div>
     <% end %>
   <div>
+  <% elsif @obj.is_a?(DragAndDropInterface) %>
+    <div id="drag-and-drop">
+      <%= raw @obj.html.html_safe %>
+    </div>
   <% else %>
     <b><%= raw @obj.ai(html: true).html_safe %></b> <br>
   <% end %>

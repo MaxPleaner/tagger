@@ -8,12 +8,38 @@ class ApplicationController < ActionController::Base
     @agent ||= Agent
   end
 
+  def drag_and_drop(category_argument)
+    obj = <<-HTML
+    <div class="container">
+      <ul>
+          <div data-ss-colspan="2"></div>
+          <div data-ss-colspan="2"></div>
+          <div data-ss-colspan="2"></div>
+
+          <div data-ss-colspan="2"></div>
+          <div data-ss-colspan="2"></div>
+
+          <div data-ss-colspan="2"></div>
+          <div data-ss-colspan="2"></div>
+          <div data-ss-colspan="2"></div> 
+
+          <div data-ss-colspan="2"></div>
+          <div data-ss-colspan="2"></div>
+
+          <div data-ss-colspan="2"></div>
+          <div data-ss-colspan="2"></div>
+      </ul>    
+    </div>
+    HTML
+    return [ROOT_URL, DragAndDropInterface.new(html: obj)]
+  end
+
   def linkedin_query(category_argument)
       url =  "https://www.linkedin.com/company/#{category_argument}"
       page = agent.get(url)
       obj = LinkedInCollection.new(
         companies: page.css("#extra > div.also-viewed.module > ul > li > a").map { |related_company|
-          title = related_company.attributes['title'].to_s.downcase.gsub(' ', '-')
+          title = related_company.attributes['title'].to_s.downcase.gsub(' ', '-').gsub("&", "-")
           cached = Cache.company(title)
           next cached if cached
           related_company_url = related_company.attributes['href'].to_s 
@@ -25,7 +51,6 @@ class ApplicationController < ActionController::Base
           location = related_company_page.css(
             "#content > div.basic-info > div.basic-info-about > ul > li.vcard.hq > .adr"
           ).to_s
-          # binding.pry
           company = {
             href: related_link,
             source: related_company_url,
@@ -59,6 +84,8 @@ class ApplicationController < ActionController::Base
       url, obj = linkedin_query(category_argument)
     when "tag_details"
       url, obj = tag_details(category_argument)
+    when "drag_and_drop"
+      url, obj = drag_and_drop(category_argument)
     else
       return nil, nil
     end
