@@ -4,7 +4,7 @@ scrapes descriptions & tags for LinkedIn companies
 
 ------
 
-### Setup
+#### Setup
 
 It requires one environment variable to be set, `MONKEY_LEARN_TOKEN` which is an api key from
 [monkeylearn.com](http://monkeylearn.com) 
@@ -13,12 +13,12 @@ Other than that, it's standard Rails:
 
 `clone`, `bundle` `rake db:create db:migrate`, `localhost:3000`
 
-### basic usage
+#### basic usage
 
   - Use the HTML interface at `localhost:3000`
   - Scraper command (call with `SelfScraper.begin("google")` in `rails c` when the server is running)
 
-### details on scraper
+#### details on scraper
 
 You can run the crawler by running `SelfScraper.begin("google")` in `rails console`. This example will start
 at the Google  page and move to "related" pages from there.
