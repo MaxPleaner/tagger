@@ -2,7 +2,7 @@ Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
 #  http://blog.alexmaccaw.com/faster-deploys
-# has dependencies, for heroku cache
+# has dependencies
   config.assets.cache_store = :dalli_store
   
   # Code is not reloaded between requests.

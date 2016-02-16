@@ -5,10 +5,17 @@
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
+  <!-- <script src="https://npmcdn.com/masonry-layout@4.0/dist/masonry.pkgd.js"></script> -->
 </head>
 <body>
 
-<%= yield %>
+<a href="<%= ROOT_URL %>?clear_cache=true">clear cache</a> <br>
+
+<hr>
+
+<div id="link-to-html">
+  <%= yield %>
+</div>
 
 </body>
 </html>

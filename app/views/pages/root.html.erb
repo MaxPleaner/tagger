@@ -1,0 +1,41 @@
+<div id="top"></div>
+
+<!-- enter new url -->
+<form action="<%= ROOT_URL %>" method="GET">
+  <pre>similar company search</pre> <br>
+  <input type="hidden" name="category_name" value="linkedin">
+  <input type="text" name="category_argument" placeholder="company name"> <br>
+  <input type="submit" value="submit">
+</form> <br>
+
+<!-- selected url -->
+<% if @url %>
+  <%= @url %> <br>
+<% end %>
+
+<% if @obj %>
+  <% if @obj.is_a?(LinkedInCollection) %>
+  <pre>
+    Quick links:
+    <% @obj.companies.map { |ob| ob[:title] }.each do |obj| %>
+      <a href="#<%= obj %>"><%= obj %></a>
+    <% end %>
+
+  </pre>
+  <div class="grid" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 200 }'>
+    <% @obj.companies.each do |company| %>
+      <div class="company">
+        <div id="<%= company[:title] %>"></div>
+        <b><a href="<%= company[:href] %>"><%= company[:title] %></a>  - <a href="#top">top</a><br>
+        <b><%= raw company[:location].html_safe %></b> <br>
+        <pre class="small-pre"><%= raw company[:description].html_safe %></pre> <br> <br>
+      </div>
+    <% end %>
+  <div>
+  <% else %>
+    <b><%= raw @obj.ai(html: true).html_safe %></b> <br>
+  <% end %>
+<% end %> <br>
+
+
+

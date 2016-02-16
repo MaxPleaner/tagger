@@ -13,3 +13,21 @@
  *= require_tree .
  *= require_self
  */
+
+form {
+  border: 1px solid black;
+  padding: 15px;
+}
+
+.small-pre {
+  max-width: 1200px;
+  border: 1px solid black;
+  white-space: pre-wrap;
+}
+
+.company {
+  border: 10px solid turquoise;
+  padding: 15px;
+  display: inline-block;
+  font-size: 1.1em;;
+}

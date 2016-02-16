@@ -6,6 +6,32 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+case Rails.env
+when "development"
+    ROOT_URL = "http://localhost:3000"
+when "production"
+    ROOT_URL = "https://maxp-tagger.herokuapp.com"
+end
+
+class LinkedInCollection
+    attr_accessor :companies
+    def initialize(options={})
+        @companies = options[:companies] || options["companies"]
+    end
+end
+
+class Cache
+    def self.company(title)
+        match = YAML.load(GenericCache.find_by(category: "company", title: title).try(:content).to_s)
+        match.blank? ? nil : match
+    end
+    def self.store_company(attrs)
+        GenericCache.find_or_initialize_by(category: "company", title: attrs[:title]).update(
+            content: YAML.dump(attrs)
+        )
+    end
+end
+
 module Tagger
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
