@@ -51,3 +51,6 @@ gem "mechanize"
 gem "awesome_print"
 gem "phrasie"
 gem "monkeylearn"
+gem 'yaml_db'
+  # defines: rake db:data:dump  
+  #          rake db:data:load  
