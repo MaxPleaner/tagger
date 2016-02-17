@@ -16,6 +16,7 @@
 // require gridster
 //= require shapeshifter
 //= require genius
+//= require flashcards
 //= require_tree .
 
 
@@ -40,5 +41,8 @@ $(function(){
     // );
     // console.log(gridster.serialize())
 
-  $('.container').shapeshift();
+  // $('.container').shapeshift();
+
+Flashcards.begin()
+
 })

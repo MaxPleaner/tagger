@@ -71,8 +71,8 @@ class ApplicationController < ActionController::Base
   def tag_details(category_argument)
     url = "#{ROOT_URL}/?tag_details=#{category_argument}"
     tags = Tag.where(title: category_argument).map do |tag|
-      tag.relation_type.camelcase.constantize.find_by(id: tag.relation_id).title
-    end
+      tag.relation_type.camelcase.constantize.find_by(id: tag.relation_id).try(:title)
+    end.flatten
     obj = TagsCollection.new(tags: tags)
     return [url, obj]
   end

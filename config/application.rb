@@ -26,7 +26,7 @@ class Extractor
     def self.lookup(text)
         begin
             response = Monkeylearn.classifiers.classify(
-                'cl_4PFzSWVR',
+                'cl_4PFzSWVR', 
                 [text],
                 sandbox: false
             )
@@ -40,7 +40,21 @@ class Extractor
                 }
             }.flatten
             return labels
+            data = {
+              input: [
+                { text: text }
+              ]
+            }            
+            response = Monkeylearn.pipelines.run(
+                'pi_s5izXXhC',
+                data,
+                sandbox: false
+            )
+            binding.pry
+            puts "WHAT".red
         rescue StandardError => e
+            binding.pry
+            puts "WHAT".red
             puts e.message.red
             return []
         end

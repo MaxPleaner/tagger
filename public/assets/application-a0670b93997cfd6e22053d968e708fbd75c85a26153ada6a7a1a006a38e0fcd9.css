@@ -10,9 +10,10 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
- *= require_tree .
- *= require_self
+
+
  */
+
 
 form {
   border: 1px solid black;
@@ -29,7 +30,7 @@ form {
   border: 10px solid turquoise;
   padding: 15px;
   display: inline-block;
-  font-size: 1.1em;
+  font-size: 1.1em;;
 }
 
   li {
@@ -60,65 +61,4 @@ a {
 
 a:hover {
   background-color: aqua;
-}
-
-div, pre, p {
-  /*border: 1px solid black;*/
-}
-
-div {
-  /*border: 3px solid blue;*/
-}
-
-pre {
-  white-space: pre-wrap;
-  border: 1px solid grey;
-  padding: 20px;
-  margin: 30px;
-}
-
-p {
-  border: 3px solid salmon;
-  padding: 15px;
-  margin: 15px;
-}
-
-i {
-  font-weight: bold;
-  font-size: 12px;
-  display: inline-block;
-  padding: 20px;
-  /*border: 1px solid blue;*/
-  /*background: moccasin;*/
-}
-
-span {
-  /*display: inline-block;*/
-  margin-bottom: 20px;
-}
-
-span {
-  display: inline-block;
-  background: lightgrey;
-  border: 1px solid black;
-  padding: 5px;
-  font-weight: normal !important;
-}
-
-b {
-  padding: 10px;
-  margin: 15px;
-  display: block;
-  background: moccasin;
-}
-
-.openall > b {
-  display: inline-block;
-  border: 1px solid black;
-  background: none;
-}
-
-.openall-button {
-  padding: 6px;
-  box-shadow: 0 0 10px brown;
 }

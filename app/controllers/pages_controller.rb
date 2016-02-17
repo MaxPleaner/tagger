@@ -10,4 +10,6 @@ class PagesController < ApplicationController
     @url ||= params[:url]
     @url && @obj ||= agent.get(@url)
 	end
+  def flashcards
+  end
 end
