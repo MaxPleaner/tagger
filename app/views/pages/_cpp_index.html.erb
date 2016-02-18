@@ -4,9 +4,11 @@
 <% end %>
 
 <!-- quick links -->
-<% pages.each do |page| %>
-  <a href="#<%= page.gsub("_", "-") %>"><%= page %></a> <br>
-<% end %>
+<div class="quick-links">
+  <% pages.each do |page| %>
+    <a href="#<%= page.gsub("_", "-") %>"><%= page %></a> &nbsp
+  <% end %>
+</div>
 
 <!-- all pages list -->
 <% pages.each do |page| %>
