@@ -1,0 +1,19 @@
+<!-- define pages as everything in app/views/cpp/ -->
+<% pages = Dir.glob(Rails.root.join("app/views/cpp/*")).map do |page| %>
+  <% page.split("/")[-1][1..-1].split(".html.erb")[0] %>
+<% end %>
+
+<!-- quick links -->
+<% pages.each do |page| %>
+  <a href="#<%= page.gsub("_", "-") %>"><%= page %></a> <br>
+<% end %>
+
+<!-- all pages list -->
+<% pages.each do |page| %>
+<pre id="<%= page.gsub("_", "-") %>" class='openall'>
+  <a href="#top">top</a>
+  <i><%= page %></i>
+  <b><%= render "cpp/#{page}" %></b>
+</pre>
+<% end %>
+

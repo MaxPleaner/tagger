@@ -1,26 +1,41 @@
 <div class="openall">
 
-<i>Basic data types</i>
+<i>Numeric types</i>
 <p>
-  <i>Data types</i> 
-  char <b>character</b> 
-  unsigned char <b>unsigned character</b> 
-  int  <b>integer</b> 
-  short int <b>short int</b> 
-  short <b>short</b> 
-  unsigned short int <b>unsigned short integer</b> 
-  unsigned short <b>unsigned short integer</b> 
-  unsigned int <b>unsigned integer</b> 
-  unsigned <b>unsigned int</b> 
-  long int <b>long integer</b> 
-  long <b>long int</b> 
-  unsigned long ing <b>long</b> 
-  unsigned long <b>unsigned long int</b> 
-  float <b>single precision floating point</b> 
-  double <b>double precision floating point</b> 
-  long double <b>long double precision floating point</b> 
+  short (int) <b>2 bytes, range -32k to 32k</b> 
+  unsigned short (int) <b>unsigned short integer</b> 
+  int / long <b>4 bytes, -2bil to 2 bil</b> 
+  unsigned (int/long) <b>4 bytes, 0 to 4 bil</b> 
+  float <b>4 bytes, +=3.4E+=38 precision bits</b> 
+  double <b>8 byes, +=1.7E+=308 precision bits</b> 
+  long double precision <b>8 bytes, +=1.7E+=308 precision bits</b> 
+  bool <b>boolean, true or false</b>
 </p>
 
+<i>Numeric Type rankings</i>
+<p>
+  Numeric type rankings <b>
+    long double
+    double
+    float
+    unsigned long
+    long (int)
+    unsigned (int)
+    short (int)
+
+    These are in order of number of bits they can hold.
+    All strings / chars are converted to int
+  </b>
+</p>
+
+<i>String types</i>
+<p>
+  char <b>
+  1+ byte, usually ASCII or EBCDIC (IBM) encoded.
+  </b> 
+  unsigned char <b>unsigned character</b> 
+</p>
+  
 <i>If / else</i>
 <p>
   Shorthand <b>No braces - <span>if (expression) <br> statement;</span></b>
@@ -37,8 +52,27 @@
 
 <i>While-loop</i>
 <p>
-  shorthand <b>No braces - <span>do <br> statement; <br> while (expression);</span></b>
-  longhand <b>With braces - <span>do <br> {statements;} <br> while (expression);</span></b>
+  pretest - evaluate the expression before each execution
+    
+    "while do" shorthand <b>No braces - <span>do <br> statement; <br> while (expression);</span></b>
+    "while do" longhand <b>With braces - <span>do <br> {statements;} <br> while (expression);</span></b>
+    "do while" <b>evaluate the expression before each execution <span>do <br> {statement;} while (expression);</span></b>
+</p>
+
+<i>For loop</i>
+<p>
+  basic for loop <b>
+    <span>
+      for (initialization; test; update)
+        statement;
+    </span>
+    example: <span>
+      for (int count = 1; count <= 5; count++)
+        statement;
+    </span>
+    Multiple variables can be included in the initialization and update expressions.
+    The initialization can be ommitted if the variable is already defined
+  </b>
 </p>
 
 </div>

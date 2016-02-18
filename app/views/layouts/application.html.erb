@@ -9,13 +9,17 @@
 </head>
 <body>
 
-<a href="<%= ROOT_URL %>?clear_cache=true">clear cache</a> <br>
+<div id="top"></div>
+
+<a id="destroy-button" href="<%= ROOT_URL %>?clear_cache=true">clear cache</a> <br>
 
 <hr>
 
 <div id="link-to-html">
   <%= yield %>
 </div>
+
+
 
 </body>
 </html>

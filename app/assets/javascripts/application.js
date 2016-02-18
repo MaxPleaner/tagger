@@ -43,6 +43,12 @@ $(function(){
 
   // $('.container').shapeshift();
 
-Flashcards.begin()
+    Flashcards.begin()
+
+    $("#destroy-button").on("click", function(e){
+        if (!(confirm("are you sure?") == true)) {
+            e.preventDefault(); return false;
+        }
+    })
 
 })

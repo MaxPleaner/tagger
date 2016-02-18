@@ -1,0 +1,61 @@
+  <div class="openall">
+  
+    endl and newline
+    <b>
+      <span>cout << "hello" << "world" << endl;</span>
+      "\n" can also be used, however it advances the program when used with stdin
+    </b>
+  
+    chars/strings in memory <b>
+      Characters in memory are stored as number codes.
+      Strings are stored using a null-terminator character "\0"
+    </b>
+
+    Difference between string and character literals <b>
+      character literals are single quoted
+      string literals are doubly quoted
+      string literals cannot be assigned to char-type variables
+    </b>
+
+    Character arrays <b>
+      initialization (e.g.): <span>char myString[12];</span>
+    </b>
+
+    Formatting output <b>
+      <span>#include &lt;iomanip&gt; </span>
+      <span>setw</span> - "field width", marks the width for the next input value
+      <span>left</span> and <span>right</span> are used before setw to "justify" text.
+      <span>setprecision</span> - total number of digits displayed in number
+      <span>fixed</span> - prevents setprecision from using scientific notation
+      <span>showpoint</span> - include trailing zeros as needed
+
+      Becuase of the null terminator character, the "setw" number needs to be
+      incremented by 1 when getting strings from cin.
+    </b>
+
+    comparing and sorting strings <b>
+      <span>#include &lt;strcmp&gt; </span>
+      <span>strcmp(str1, str2)</span> is akin to ruby's spaceship.
+      i.e. if str1 is greater, return 1
+           if str1 is greater, return -1
+                         else, return 0
+      The 'lower' of two strings is alphabetically lower.
+      This can be used to sort strings.
+    </b>
+
+    switch operator <b>
+      <span>
+        switch (IntegerExpression)
+        {
+          case ConstantExpression:
+            // statements ...
+            break; 
+          default:
+            // statements ...
+            break;
+        }
+      </span>
+      End each statement with 'break'
+    </b>
+
+  </div>

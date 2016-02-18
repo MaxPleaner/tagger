@@ -62,12 +62,56 @@ a:hover {
   background-color: aqua;
 }
 
-div, pre, p {
-  /*border: 1px solid black;*/
+span {
+  display: inline-block;
+  background: lightgrey;
+  border: 1px solid black;
+  padding: 10px;
+  font-weight: normal !important;
 }
 
-div {
-  /*border: 3px solid blue;*/
+b {
+  margin: 15px;
+  display: block;
+  white-space: pre-wrap;
+  padding: 10px;
+}
+
+.openall > b {
+  border: 3px solid salmon;
+  margin: 15px;
+}
+
+.openall > b .openall > b {
+  border: none;
+  border: 3px solid salmon;
+}
+
+.openall-deep > b > .openall > b > .openall b {
+  border: none;
+  background: moccasin;
+  /*background: none;*/
+}
+
+.openall-deep > b, .openall-deep > b > .openall > b {
+  background: none !important;
+}
+
+
+p {
+  background: none;
+  border: 3px solid salmon;
+  margin: 15px;
+  padding: 15px;
+}
+
+.openall-button {
+  padding: 6px;
+  box-shadow: 0 0 10px brown;
+}
+
+b .openall b {
+  background: moccasin
 }
 
 pre {
@@ -77,48 +121,10 @@ pre {
   margin: 30px;
 }
 
-p {
-  border: 3px solid salmon;
-  padding: 15px;
-  margin: 15px;
-}
-
 i {
   font-weight: bold;
   font-size: 12px;
   display: inline-block;
   padding: 20px;
-  /*border: 1px solid blue;*/
-  /*background: moccasin;*/
 }
 
-span {
-  /*display: inline-block;*/
-  margin-bottom: 20px;
-}
-
-span {
-  display: inline-block;
-  background: lightgrey;
-  border: 1px solid black;
-  padding: 5px;
-  font-weight: normal !important;
-}
-
-b {
-  padding: 10px;
-  margin: 15px;
-  display: block;
-  background: moccasin;
-}
-
-.openall > b {
-  display: inline-block;
-  border: 1px solid black;
-  background: none;
-}
-
-.openall-button {
-  padding: 6px;
-  box-shadow: 0 0 10px brown;
-}

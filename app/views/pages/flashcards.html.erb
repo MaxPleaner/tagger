@@ -1,25 +1,15 @@
 <div class="flashcards">
 
-<% ["glossary", "language_comparisons"].each do |page| %>
-<pre class='openall'>
-  <i><%= page %></i>
-  <b><%= render "cpp/#{page}" %></b>
-</pre>
-<% end %>
+<div class="openall openall-deep">
+C++
+<b>
+  <%= render "cpp_index" %>
+</b> <br>
+</div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Telephony
+<b>
+  <%= render "telephony_index" %>
+</b>
 
 </div>

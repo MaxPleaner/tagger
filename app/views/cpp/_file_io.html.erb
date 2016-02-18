@@ -1,0 +1,42 @@
+<div class="openall">
+  
+  fstream library <b>
+    <span>#include &lt;fstream&gt; </span>
+  </b>
+
+  ofstream <b>
+      Output file stream, for creating and writing
+  </b>
+
+  ifstream <b>
+    Input file stream, for reading
+  </b>
+
+  fstream <b>
+    File stream, for creating, writing, and reading
+  </b>
+
+  opening / closing a file <b>
+    define file object: <span>ifstream inputFile</span>
+    open file: <span>inputFile.open("my.file")</span>
+    check if file exists (after opening).
+    closing file: <span>inputFile.close()</span>
+  </b>
+
+  Checking if file exists <b>
+    after opening a file with an ifstream:
+    1. <span>if (!inputFile)</span>
+    2. <span>if (inputFile.fail)</span>
+  </b>
+
+  Checkinf if file read sucessful <b>
+    To read a single character from a file, use <span>>></span>
+    Can check if this is successful or not using <span>if (inputFile >> myVar)</span>
+  </b>
+
+  writing data to file <b>
+    <span>outputFile << "hello world"</span>
+  </b>
+
+
+</div>

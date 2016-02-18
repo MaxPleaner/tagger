@@ -9,7 +9,7 @@ Flashcards = {
       var $answerButton = $("<button class='answer-button'>answer</button>")
       // debugger
       var $togglers = $base.find(this.answerButtonClasses).hide().before($answerButton)
-      $(".answer-button").after($("<br>"))
+      $(".answer-button").before($("<br>")).after($("<br>"))
       $base.find(".answer-button").on("click", this.togglerClicked)  
   },
 
